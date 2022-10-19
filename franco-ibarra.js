@@ -10,9 +10,9 @@ class Contenedor {
     try {
         const data = await fs.promises.readFile(this.archivo,"utf-8")
         array = JSON.parse(data)
-        array.map(item=>item.id)
-        let id = Math.max(...id)
-            object.id = highId + 1;
+        let idArray=array.map(item=>item.id)
+        let id = Math.max(...idArray)
+            object.id = id + 1;
             array.push(object);
             fs.writeFileSync(this.archivo, JSON.stringify(array))
     } catch{
@@ -57,7 +57,7 @@ class Contenedor {
     }
 }
 const newArchivo = new Contenedor ("./archivo.txt");
-newArchivo.save({titulo:"remera de peliculas",precio:2600,imagem:"https://http2.mlstatic.com/D_NQ_NP_851612-MLA45275561304_032021-O.webp"}).then(resolve => console.log(resolve));
+newArchivo.save({titulo:"remerapeliculas",precio:2600,imagem:"https://http2.mlstatic.com/D_NQ_NP_851612-MLA45275561304_032021-O.webp"}).then(resolve => console.log(resolve));
 newArchivo.getById(0).then(resolve => console.log(resolve));
 newArchivo.getAll(0).then(resolve => console.log(resolve));
 newArchivo.deleteById();
