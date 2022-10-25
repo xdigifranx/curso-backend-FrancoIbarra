@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "\"# curso-backend-FrancoIbarra\"",
+  "main": "franco-ibarra.js",
+  "scripts": {
+    "dev": "nodemon franco-ibarra.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdigifranx/curso-backend-FrancoIbarra.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xdigifranx/curso-backend-FrancoIbarra/issues"
+  },
+  "homepage": "https://github.com/xdigifranx/curso-backend-FrancoIbarra#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
