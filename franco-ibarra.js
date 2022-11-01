@@ -1,87 +1,61 @@
-const fs = require('fs')
 const express = require('express')
+const app = express()
+const PORT = process.env.PORT|| 8080;
+const {Router} = express;
+const router = new Router()
+const productos = []
 
-class Contenedor {
-    constructor(nombreArchivo){
-        this.archivo=nombreArchivo
-    }
-    async save(object){
-    let array =[]
-    
-    try {
-        const data = await fs.promises.readFile(this.archivo,"utf-8")
-        array = JSON.parse(data)
-        let idArray=array.map(item=>item.id)
-        let id = Math.max(...idArray)
-            object.id = id + 1;
-            array.push(object);
-            fs.writeFileSync(this.archivo, JSON.stringify(array))
-    } catch{
-        object.id = 0;
-        array.push(object);
-        fs.writeFileSync(this.archivo, JSON.stringify(array))
-    }
-    return object.id
-}
-    async getById(number){
-        try {
-            const data = await fs.promises.readFile(this.archivo,"utf-8")
-            let auxArray = JSON.parse(data)
-            const object = auxArray.find(obj => obj.id === number)
-            return object
-        } catch{
-            return null
-        }
-    }
-    async getAll(){
-        try{
-            const data = await fs.promises.readFile(this.archivo, "utf-8")
-            const array = JSON.parse(data)
-            return array
-        } catch{
-            return null
-        }
-    }
-    async deleteById(number) {
-        try {
-            const data = await fs.promises.readFile(this.archivo, "utf-8")
-            const array = JSON.parse(data)
-            const newArray = array.filter(item => item.id !== number)
-            fs.writeFileSync(this.archivo, JSON.stringify(newArray))
-        }
-        catch {
-            return "No hay objetos en el archivo"
-        }
-    }
-    deleteAll() {
-        fs.writeFileSync(this.archivo, "")
-    }
-}
-const newArchivo = new Contenedor ("./archivo.JSON");
-/* newArchivo.save({titulo:"remera de pelicula",precio:2500,imagem:"https://http2.mlstatic.com/D_NQ_NP_851612-MLA45275561304_032021-O.webp"}).then(resolve => console.log(resolve)); */
+app.use("/static", express.static(__dirname + "public"))
 
+app.listen(PORT,()=>console.log(`http://localhost:${PORT}`))
 
-/* newArchivo.deleteById();  */
-/* newArchivo.deleteAll();  */
+router.use(express.json())
 
-const app = express();
-const PORT = 8080;
-app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
+router.use(express.urlencoded({ extended: true }))
+
+router.get('/',(req,res)=>{
+    res.json(productos)
 })
 
-app.get('/', (req, res) => {
-    res.end("bienvenido :D")
+router.get('/:id',(req,res)=>{
+    let id = parseInt(req.params.id);
+    let producto = productos.find(item => item.id == id);
+    res.json(producto ? producto : {error: "no se encontro el producto"})
+})
+router.post("/", (req, res) => {
+    let producto = req.body;
+    if (productos.length != 0) {
+        let arrayId = productos.map(item => item.id);
+        let highId = Math.max(...arrayId);
+        producto.id = highId + 1;
+    } else producto.id = 1;
+
+    productos.push(producto);
+    res.json(producto);
+})
+router.put("/:id", (req, res) => {
+    let id = parseInt(req.params.id);
+    req.body.id = id;
+    let producto = req.body;
+    const array = productos.map(item => item.id == id ? producto : item);
+    productos.splice(0);
+    productos.push(...array);
+    res.json(producto);
+})
+router.delete("/:id", (req, res) => {
+    let id = parseInt(req.params.id);
+    let array = productos.filter(item => item.id != id);
+    productos.splice(0);
+    productos.push(...array);
+    res.json(productos);
+})
+app.use("/api/productos", router);
+
+app.use((req, res, next) => {
+    res.status(404).send("error");
 })
 
-app.get('/productos', (req, res) => {
-    newArchivo.getAll().then(resolve => {
-        res.end(`todo los productos: ${JSON.stringify(resolve)}`)
-    });
-})
-app.get('/productoRandom', (req, res) => {
-    let nRandom = parseInt((Math.random() * 2) + 0)
-    newArchivo.getById(nRandom).then(resolve => {
-        res.end(`producto random: ${JSON.stringify(resolve)}`)
-    });
-})
+app.use('/static', express.static('public'));
+
+
+
