@@ -1,0 +1,14 @@
+[
+    {
+        "title": "zapatillas",
+        "price": "7000",
+        "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_756234-MLA44632041958_012021-O.webp",
+        "id": 0
+    },
+    {
+        "title": "zapatilla",
+        "price": "5000",
+        "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_603093-MLA52004799849_102022-O.webp",
+        "id": 1
+    }
+]

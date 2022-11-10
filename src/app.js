@@ -1,4 +1,4 @@
-const express = require('Express');
+/* const express = require('Express');
 const app =express();
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
@@ -18,24 +18,22 @@ router.use(express.urlencoded({ extended: true }))
 
 server.on("error", error => console.log(`Error en servidor ${error}`))
 
-app.set("views", "./views");
-
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 
 app.use("/static", express.static(__dirname + "public"))
 
 router.get('/', (req,res)=>{
-    res.render("productos", {productos})
+    res.render("pages/productos", {productos})
 })
 
 app.get("/", (req, res) => {
-    res.render("formulario",{titlePage:"Formulario"})
+    res.render("pages/formulario",{titlePage:"Formulario"})
 })
 
 router.post("/", (req, res) => {
     let objeto = req.body;
-    const veri = handleVerify(objeto.title) && handleVerify(objeto.price) && handleVerify(objeto.thumbnail);
-    if(veri){
+    const verify = handleVerify(objeto.title) && handleVerify(objeto.price) && handleVerify(objeto.thumbnail);
+    if(verify){
         if (productos.length != 0) {
             let arrayId = productos.map(item => item.id);
             let highId = Math.max(...arrayId);
@@ -51,4 +49,11 @@ app.use((req, res, next) => {
     res.status(404).send("error");
 })
 
-app.use("/api/productos", router);
+app.use("/api/productos", router); */
+
+const { servidor } = require('./servidor.js');
+
+const server = servidor.listen(8080, () => {
+    console.log(`conectado en puerto ${server.address().port}`)
+})
+server.on("error", error => console.log(`Error en servidor ${error}`))

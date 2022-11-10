@@ -4,7 +4,7 @@
   "description": "\"# curso-backend-FrancoIbarra\"",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,8 @@
     "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
     "handlebars": "^4.7.7",
-    "pug": "^3.0.2"
+    "moment": "^2.29.4",
+    "pug": "^3.0.2",
+    "socket.io": "^4.5.3"
   }
 }
